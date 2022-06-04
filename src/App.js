@@ -9,26 +9,23 @@ const Country = (props) => {
   useEffect(() => {
     axios.get(`https://restcountries.com/v3.1/name/${name}`).then(res =>{
       let temp = []
-      temp.push(props.per,res.data[0].capital,res.data[0].population)
+      temp.push(props.per,res.data[0].capital,res.data[0].population,res.data[0].flags.png)
       
       const languages = []
-      const flag = []
+      
       Object.keys(res.data[0].languages).forEach(function (key) {
         var val = res.data[0].languages[key];
         // use val
         languages.push(val)
       });
-      Object.keys(res.data[0].flags).forEach(function (key) {
-        var val = res.data[0].flags[key]
-        flag.push(val)
-      })
+      
       temp.push(languages)
-      temp.push(flag)
       setctyList(temp)
       setLoading(!loading)
-
+      console.log(temp);
     })
   },[])
+
   if(!loading){
     return(
       <div>
@@ -36,9 +33,8 @@ const Country = (props) => {
         <h3>Capital: {ctylist[1]}</h3>
         <h3>population: {ctylist[2]}</h3>
         <h2>Languages</h2>
-        <ul>{ctylist[3].map(x =><li key={x}>{x}</li>)}
-        </ul>
-        <img src= {ctylist[4]}/>
+        <ul>{ctylist[4].map(x =><li key={x}>{x}</li>)}</ul>
+        <img src = {ctylist[3]}/>
       </div>
       
     )
